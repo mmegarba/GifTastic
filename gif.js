@@ -1,6 +1,7 @@
+
 var topics = ["duck", "mouse", "chicken"];
 
-
+$(document).ready(function() {
 
 for (var i = 0; i < topics.length; i++) {
 
@@ -11,7 +12,7 @@ newButton.attr("class", "button")
 
 $("#ButtonsDiv").append(newButton);
 }
-
+});
 
 
 
@@ -19,8 +20,6 @@ $("#ButtonsDiv").append(newButton);
 $("#ButtonsDiv").on("click",".button", function(){
 
 var searchTerm = $(this).attr("value")
-
-console.log($(this))
 
 grabGiphy(searchTerm)
 
@@ -31,15 +30,12 @@ grabGiphy(searchTerm)
 function grabGiphy(searchTerm){
 var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-console.log(searchTerm);
 
 $.ajax({
 url:queryURL,
 method:"GET",
 
 }).done(function(response){
-console.log(response);
-console.log(response.data[0].embed_url);
 
 for (var i = 0; i < response.data.length; i++) {
 
@@ -61,22 +57,22 @@ for (var i = 0; i < response.data.length; i++) {
 });
 };
 
-
 $(document.body).on('click', '.gif' ,function(){
 
+var state = $(this).attr("data-state");
 
-if($(this).attr("data-state") === "still")
+if(state === "still")
 
 {
 
-
-  $(this).attr("src", "");
+  $(this).attr("src", $(this).attr("data-animate"));
 
   $(this).attr("data-state","animate");
 
+
 }
 
-if($(this).attr("data-state") === "animate")
+if(state === "animate")
 {
 
   $(this).attr("src", $(this).attr("data-still"));
