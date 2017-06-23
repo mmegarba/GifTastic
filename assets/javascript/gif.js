@@ -37,17 +37,25 @@ method:"GET",
 
 }).done(function(response){
 
+  $("#displayDiv").empty();
+
 for (var i = 0; i < response.data.length; i++) {
 
-  var newgif = $("<img>")
-  newgif.attr("src", response.data[i].images.fixed_height_still.url)
-  newgif.attr("data-still", response.data[i].images.fixed_height_still.url)
+  var newgif = $("<img>");
+  var newFrame = $("<div>");
+  newFrame.attr("class", "imgFrame")
+  var newP = $("<p>");
+  newP.text("Rating: " + response.data[i].rating);
+
+  newgif.attr("src", response.data[i].images.fixed_height_still.url);
+  newgif.attr("data-still", response.data[i].images.fixed_height_still.url);
   newgif.attr("data-state", "still");
-  newgif.attr("data-animate", response.data[i].images.fixed_height.url)
-  newgif.attr("class", "gif")
+  newgif.attr("data-animate", response.data[i].images.fixed_height.url);
+  newgif.attr("class", "gif");
 
-
-  $("#displayDiv").after(newgif);
+  newFrame.append(newP);
+  newFrame.append(newgif);
+  $("#displayDiv").after(newFrame);
 
 
 
@@ -64,7 +72,6 @@ var state = $(this).attr("data-state");
 if(state === "still")
 
 {
-
   $(this).attr("src", $(this).attr("data-animate"));
 
   $(this).attr("data-state","animate");
@@ -81,4 +88,14 @@ if(state === "animate")
 
 }
 
+});
+
+
+$("#submitInput").on("click", function(){
+
+  event.preventDefault();
+
+  var userInput = $("#newInput").val();
+
+  grabGiphy(userInput);
 });
