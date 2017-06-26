@@ -1,23 +1,35 @@
 
-var topics = ["duck", "mouse", "chicken"];
+var topics = ["Ferarri", "Lamborghini", "Aston Martin"];
+
+function reButton(){
+
+  for (var i = 0; i < topics.length; i++) {
+
+  var newButton  = $("<button>");
+  newButton.attr("value", topics[i]);
+  newButton.text(topics[i]);
+  newButton.attr("class","btn btn-primary btn-md");
+  newButton.attr("id","button");
+
+
+  $("#ButtonsDiv").append(newButton);
+
+};
+};
+
+
+
 
 $(document).ready(function() {
-
-for (var i = 0; i < topics.length; i++) {
-
-var newButton  = $("<button>");
-newButton.attr("value", topics[i]);
-newButton.text(topics[i])
-newButton.attr("class", "button")
-
-$("#ButtonsDiv").append(newButton);
-}
+reButton();
 });
 
 
 
 
-$("#ButtonsDiv").on("click",".button", function(){
+$("#ButtonsDiv").on("click","#button", function(){
+
+
 
 var searchTerm = $(this).attr("value")
 
@@ -28,6 +40,9 @@ grabGiphy(searchTerm)
 
 
 function grabGiphy(searchTerm){
+
+  $("#displayDiv").empty();
+
 var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=dc6zaTOxFJmzC&limit=10";
 
 
@@ -55,7 +70,7 @@ for (var i = 0; i < response.data.length; i++) {
 
   newFrame.append(newP);
   newFrame.append(newgif);
-  $("#displayDiv").after(newFrame);
+  $("#displayDiv").append(newFrame);
 
 
 
@@ -92,10 +107,15 @@ if(state === "animate")
 
 
 $("#submitInput").on("click", function(){
+$("#ButtonsDiv").empty();
 
   event.preventDefault();
 
   var userInput = $("#newInput").val();
 
-  grabGiphy(userInput);
+  topics.push(userInput);
+
+  reButton();
+
+
 });
